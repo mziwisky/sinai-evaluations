@@ -1,5 +1,5 @@
 class Evaluation < ActiveRecord::Base
-  attr_accessible :student_email, :student_name, :student_type, :hospital, :evaluation
+  attr_accessible :student_email, :student_name, :student_type, :hospital, :evaluation, :provider_id
   belongs_to :provider
 
   validates_presence_of :student_email, :student_name

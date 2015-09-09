@@ -1,0 +1,38 @@
+<h2>Hello, <%= @evaluation.student_name %></h2>
+
+<% if @evaluation.provider_id %>
+
+  <h3>Looks like you've already submitted your evaluation request.  You entered the following info:</h3>
+  <p>Student Type: <%= @evaluation.student_type %></p>
+  <p>Hostpital: <%= @evaluation.hospital %></p>
+  <p>Provider: <%= @evaluation.provider.name %></p>
+
+<% else %>
+
+  <h3>Please fill out the following form. The provider you select will be asked to fill out an evaluation of your performance.</h3>
+
+  <%= form_for @evaluation, url: { action: 'student_submit' } do |f| %>
+
+    <%= f.label(:student_type, "Type of student:") %>
+    <%= f.select(:student_type, @student_types) %>
+
+    <br>
+    <br>
+
+    <%= f.label(:hospital, "Hospital:") %>
+    <%= f.select(:hospital, @hospitals) %>
+
+    <br>
+    <br>
+
+    <%= f.label(:provider_id, "Provider") %>
+    <%= f.collection_select(:provider_id, @providers, :id, :name) %>
+
+    <br>
+    <br>
+
+    <%= f.submit("Submit") %>
+  <% end %>
+
+<% end %>
+
