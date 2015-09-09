@@ -1,4 +1,7 @@
 Basem::Application.routes.draw do
+  resources :evaluations
+
+
   resources :providers
 
 
