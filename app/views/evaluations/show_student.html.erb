@@ -3,35 +3,27 @@
 <% if @evaluation.provider_id %>
 
   <h3>Looks like you've already submitted your evaluation request.  You entered the following info:</h3>
-  <p>Student Type: <%= @evaluation.student_type %></p>
-  <p>Hostpital: <%= @evaluation.hospital %></p>
-  <p>Provider: <%= @evaluation.provider.name %></p>
+  <ul>
+    <li>Student Type: <%= @evaluation.student_type %></li>
+    <li>Hostpital: <%= @evaluation.hospital %></li>
+    <li>Provider: <%= @evaluation.provider.name %></li>
+  </ul>
 
 <% else %>
 
+  <% # TODO: make this form pretty! maybe use formtastic or whatever it is that activeadmin already depends on %>
   <h3>Please fill out the following form. The provider you select will be asked to fill out an evaluation of your performance.</h3>
 
-  <%= form_for @evaluation, url: { action: 'student_submit' } do |f| %>
-
-    <%= f.label(:student_type, "Type of student:") %>
-    <%= f.select(:student_type, @student_types) %>
-
-    <br>
-    <br>
-
-    <%= f.label(:hospital, "Hospital:") %>
-    <%= f.select(:hospital, @hospitals) %>
-
-    <br>
-    <br>
-
-    <%= f.label(:provider_id, "Provider") %>
-    <%= f.collection_select(:provider_id, @providers, :id, :name) %>
-
-    <br>
-    <br>
-
-    <%= f.submit("Submit") %>
+  <%= semantic_form_for @evaluation, url: { action: 'student_submit' } do |f| %>
+    <%= f.inputs name: "Basic info for #{@evaluation.student_name}" do %>
+      <%= f.semantic_errors %>
+      <%= f.input :student_type, as: :radio, collection: @student_types %>
+      <%= f.input :hospital, as: :radio, collection: @hospitals %>
+      <%= f.input :provider, label: 'Provider (who you want to evaluate you)' %>
+    <% end %>
+    <%= f.actions do %>
+      <%= f.action :submit, label: 'Submit' %>
+    <% end %>
   <% end %>
 
 <% end %>
