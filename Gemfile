@@ -11,6 +11,8 @@ gem 'pg'
 gem 'activeadmin', '0.6.6'
 gem 'meta_search', '>= 1.1.0.pre' # an activeadmin dep, i guess
 
+gem 'rack-ssl-enforcer'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
