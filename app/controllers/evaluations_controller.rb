@@ -6,6 +6,9 @@ class EvaluationsController < ApplicationController
 
   def student_submit
     @evaluation = Evaluation.where(student_access_code: params[:access_code]).first or not_found
+    # TODO: more elegant error check here
+    render 'show_student' and return if @evaluation.student_finished?
+
     @evaluation.student_update(params[:evaluation])
 
     if @evaluation.valid?
@@ -19,10 +22,25 @@ class EvaluationsController < ApplicationController
 
   def show_provider
     @evaluation = Evaluation.where(provider_access_code: params[:access_code]).first or not_found
+    @rubric = @evaluation.rubric
   end
 
   def provider_submit
-    # TODO:
+    @evaluation = Evaluation.where(provider_access_code: params[:access_code]).first or not_found
+    @rubric = @evaluation.rubric
+    # TODO: more elegant error check here
+    render 'show_provider' and return if @evaluation.evaluator_finished?
+
+    @rubric.apply_grades!(params[:rubric])
+
+    if @rubric.completed?
+      @evaluation.evaluator_update(@rubric)
+      # TODO: show page
+      render text: "thanks! -- #{params[:rubric].to_json}"
+    else
+      @rubric.mark_errors!
+      render 'show_provider'
+    end
   end
 
   private

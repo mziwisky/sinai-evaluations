@@ -28,11 +28,11 @@ ActiveAdmin.register Evaluation do
     column :student_name
     column :student_email
     column 'Student Finished?' do |ev|
-      status_tag_bool ev.provider.present?
+      status_tag_bool ev.student_finished?
     end
     column :provider
     column 'Provider Finished?' do |ev|
-      status_tag_bool ev.evaluation.present?
+      status_tag_bool ev.evaluator_finished?
     end
     column :created_at
     actions

@@ -1,0 +1,49 @@
+<div class="container">
+  <h2>Hello, <%= @evaluation.provider.name %></h2>
+
+  <h3>Please fill out the following evaluation for <b><%= @evaluation.student_name %></b></h3>
+
+  <%= form_for @evaluation, url: { action: 'provider_submit' } do |f| %>
+
+    <% @rubric.metric_types.each do |metric_type| %>
+      <table class="evaluation table-bordered">
+        <thead>
+          <tr>
+            <th></th>
+            <% Rubric.options_for_metric_type(metric_type).each do |opt| %>
+              <th><%= opt[:desc] %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+
+        <% @rubric.metrics_of_type(metric_type).each do |metric| %>
+          <tr>
+            <td>
+              <div class="title"><%= metric.title %></div>
+              <div class="desc"><%= metric.description %></div>
+              <div class="error"><%= metric.error %></div>
+            </td>
+            <% metric.options.each do |opt| %>
+              <td class="option">
+                <label><input type="radio" <%= 'checked="checked"' if metric.grade == opt[:value] %>
+                        name="rubric[<%= metric.identifier.to_s %>]" value="<%= opt[:value] %>"/><br><%= opt[:desc] %></label>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+    <% end %>
+
+    <div class="comments">
+      <%= label_tag(:provider_comments, "Additional Comments:") %>
+      <br>
+      <%= text_area_tag(:provider_comments, "", rows: 6) %>
+      <br>
+    </div>
+
+    <%= f.submit "Submit Evaluation" %>
+  <% end %>
+</div>
