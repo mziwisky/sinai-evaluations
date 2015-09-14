@@ -1,4 +1,4 @@
-Basem::Application.routes.draw do
+SinaiEvaluations::Application.routes.draw do
   # resources :evaluations
   # resources :providers
 

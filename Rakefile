@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Basem::Application.load_tasks
+SinaiEvaluations::Application.load_tasks
