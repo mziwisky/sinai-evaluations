@@ -1,13 +1,24 @@
 ActiveAdmin.register_page "Dashboard" do
 
-  menu :priority => 1, :label => proc{ I18n.t("active_admin.dashboard") }
+  menu :priority => 1, :label => "Dashboard"
 
-  content :title => proc{ I18n.t("active_admin.dashboard") } do
-    div :class => "blank_slate_container", :id => "dashboard_default_message" do
-      span :class => "blank_slate" do
-        span I18n.t("active_admin.dashboard_welcome.welcome")
-        small I18n.t("active_admin.dashboard_welcome.call_to_action")
-      end
+  content :title => "Dashboard" do
+    panel "README" do
+      para <<-PARA
+First thing you need to do is add the providers that students will be able to select from.  All you need is name and email of each provider.  Click "Providers" along the top bar and use the "Add Provider" button.
+      PARA
+      para <<-PARA
+Please do not delete any providers.  If you no longer want one to be selectable by students (cuz they got fired or something), then click "Edit" and check the "Disabled" box and "Update Provider".  Eventually I'll make it so disabled providers are hidden by default so they don't clutter up your interface.  I'll also make it so you _can't_ delete them, just to be safe.
+      PARA
+      para <<-PARA
+After providers are added, you can click "Evaluations" at the top and "New Evaluation".  Enter the student's name and email and click "Create Evaluation", and they will be emailed w/ a link that lets them fill out the basic info (student type, hospital, and choose a provider).  Once they've submitted that, the provider they chose will be emailed automatically w/ a link to fill out their evaluation.  You can see the status of the evaluations on that admin interface (i.e. whether the student did their part yet and whether the provider did), but i don't have a nice view of the results yet.  The evaluations are saved tho, i just have to format them nicely for you.
+      PARA
+      para <<-PARA
+If any questions or issues come up, you have my email address.
+      PARA
+      para <<-PARA
+--Mike
+      PARA
     end
 
     # Here is an example of a simple dashboard with columns and panels.
