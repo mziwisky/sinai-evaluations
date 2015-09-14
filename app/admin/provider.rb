@@ -1,9 +1,9 @@
 ActiveAdmin.register Provider do
   config.sort_order = 'name_asc'
 
+  scope :all
   scope :active, default: true
   scope :disabled
-  scope :all
 
   form do |f|
     f.semantic_errors
