@@ -12,7 +12,7 @@ SinaiEvaluations::Application.configure do
     :enable_starttls_auto => true,
     :openssl_verify_mode => 'none'
   }
-  config.action_mailer.default_url_options = { :host => "no-host-yet.com" }
+  config.action_mailer.default_url_options = { :host => ENV.fetch('DOMAIN', "localhost") }
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
