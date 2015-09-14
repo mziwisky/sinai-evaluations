@@ -33,6 +33,9 @@ SinaiEvaluations::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  # Needed for the ActiveAdmin's manifest assets.
+  config.assets.precompile += ['active_admin.css', 'active_admin.js']
+
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 
