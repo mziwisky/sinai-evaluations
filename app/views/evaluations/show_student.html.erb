@@ -3,7 +3,12 @@
 
   <% if @evaluation.student_finished? %>
 
-    <h3>Looks like you've already submitted your evaluation request.  You entered the following info:</h3>
+    <% if @just_submitted %>
+      <h3>Thanks. Here are your responses:</h3>
+    <% else %>
+      <h3>Looks like you've already submitted your evaluation request. You entered the following info:</h3>
+    <% end %>
+
     <ul>
       <li>Student Type: <%= @evaluation.student_type %></li>
       <li>Hostpital: <%= @evaluation.hospital %></li>

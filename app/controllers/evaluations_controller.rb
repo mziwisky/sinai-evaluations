@@ -12,8 +12,8 @@ class EvaluationsController < ApplicationController
     @evaluation.student_update(params[:evaluation])
 
     if @evaluation.valid?
-      # TODO: redirect to a view page or something
-      render text: "thanks! -- #{params[:evaluation].to_json}"
+      @just_submitted = true
+      render 'show_student'
     else
       prepare_student_form_vars
       render 'show_student'
@@ -25,18 +25,19 @@ class EvaluationsController < ApplicationController
     @rubric = @evaluation.rubric
   end
 
+  # this one's kinda nasty...
   def provider_submit
     @evaluation = Evaluation.where(provider_access_code: params[:access_code]).first or not_found
     @rubric = @evaluation.rubric
-    # TODO: more elegant error check here
     render 'show_provider' and return if @evaluation.evaluator_finished?
 
     @rubric.apply_grades!(params[:rubric])
+    @evaluation.comments = params[:evaluation][:comments]
 
     if @rubric.completed?
       @evaluation.evaluator_update(@rubric)
-      # TODO: show page
-      render text: "thanks! -- #{params[:rubric].to_json}"
+      @just_submitted = true
+      render 'show_provider'
     else
       @rubric.mark_errors!
       render 'show_provider'

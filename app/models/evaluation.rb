@@ -1,5 +1,5 @@
 class Evaluation < ActiveRecord::Base
-  attr_accessible :student_email, :student_name, :student_type, :hospital, :evaluation, :provider_id
+  attr_accessible :student_email, :student_name, :student_type, :hospital, :evaluation, :provider_id, :comments
   belongs_to :provider
 
   attr_accessor :student_submission
@@ -16,7 +16,8 @@ class Evaluation < ActiveRecord::Base
   end
 
   def evaluator_update(rubric)
-    update_attributes(evaluation: rubric.to_json)
+    self.evaluation = rubric.to_json
+    save
   end
 
   # did the student finish filling out the basic info?
