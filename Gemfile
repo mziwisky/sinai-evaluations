@@ -5,7 +5,7 @@ gem 'rails', '3.2.22'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'pg'
 
 gem 'activeadmin', '0.6.6'
 gem 'meta_search', '>= 1.1.0.pre' # an activeadmin dep, i guess
