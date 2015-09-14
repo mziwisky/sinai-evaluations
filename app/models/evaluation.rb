@@ -54,5 +54,6 @@ class Evaluation < ActiveRecord::Base
   end
 
   def send_email_to_student
+    EvaluationMailer.student_email(self).deliver
   end
 end

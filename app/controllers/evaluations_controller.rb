@@ -6,12 +6,12 @@ class EvaluationsController < ApplicationController
 
   def student_submit
     @evaluation = Evaluation.where(student_access_code: params[:access_code]).first or not_found
-    # TODO: more elegant error check here
     render 'show_student' and return if @evaluation.student_finished?
 
     @evaluation.student_update(params[:evaluation])
 
     if @evaluation.valid?
+      EvaluationMailer.provider_email(@evaluation).deliver
       @just_submitted = true
       render 'show_student'
     else
