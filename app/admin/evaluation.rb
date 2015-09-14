@@ -7,7 +7,15 @@ def status_tag_bool(bool)
 end
 
 ActiveAdmin.register Evaluation do
+  config.sort_order = 'created_at_desc'
+
   actions :all, except: [:edit]
+
+  scope :all, default: true
+  scope :unfinished
+  scope :waiting_on_student
+  scope :waiting_on_provider
+  scope :finished
 
   # TODO: probably allow some filters
   config.filters = false
@@ -24,7 +32,7 @@ ActiveAdmin.register Evaluation do
 
   # index page
   index do
-    id_column
+    selectable_column
     column :student_name
     column :student_email
     column 'Student Finished?' do |ev|

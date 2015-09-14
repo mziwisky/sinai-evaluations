@@ -10,6 +10,11 @@ class Evaluation < ActiveRecord::Base
 
   after_create :send_email_to_student
 
+  scope :unfinished, lambda { where(evaluation: nil) }
+  scope :waiting_on_student, lambda { where(provider_id: nil) }
+  scope :waiting_on_provider, lambda { where('provider_id IS NOT NULL AND evaluation IS NULL') }
+  scope :finished, lambda { where('provider_id IS NOT NULL AND evaluation IS NOT NULL') }
+
   def student_update(attrs)
     self.student_submission = true
     update_attributes(attrs)
