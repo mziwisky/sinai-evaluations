@@ -12,7 +12,7 @@ SinaiEvaluations::Application.configure do
     :enable_starttls_auto => true,
     :openssl_verify_mode => 'none'
   }
-  config.action_mailer.default_url_options = { :host => "no-host-yet.com" }
+  config.action_mailer.default_url_options = { :host => "sinai-evaluations.herokuapp.com" }
 
   # Code is not reloaded between requests
   config.cache_classes = true
