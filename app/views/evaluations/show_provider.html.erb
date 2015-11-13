@@ -63,7 +63,13 @@
         <br>
       </div>
 
-      <%= f.submit "Submit Evaluation" %>
+      <% if @evaluation.persisted? %>
+        <%= f.submit "Submit Evaluation" %>
+      <% else %>
+        <%= f.submit "Submit Evaluation",  disabled: true %>
+        <%= link_to('Return to admin dashboard', admin_root_path) %>
+      <% end %>
+
     <% end %>
 
   <% end %>
