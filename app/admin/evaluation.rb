@@ -45,4 +45,39 @@ ActiveAdmin.register Evaluation do
     column :created_at
     actions
   end
+
+  # show page
+  show do
+    attributes_table do
+      row :student_name
+      row :student_email
+      row :student_type
+      row :hospital
+      row :provider
+      row :evaluation do |ev|
+        data = JSON.parse(ev.evaluation)
+        table do
+          thead do
+            tr do
+              th 'Metric'
+              th 'Rating'
+            end
+          end
+          tbody do
+            data.each do |rating|
+              tr do
+                td rating['title']
+                td rating['grade']
+              end
+            end
+          end
+        end
+      end
+      row :comments
+      row :created_at
+      row :updated_at
+      row :student_access_code
+      row :provider_access_code
+    end
+  end
 end
