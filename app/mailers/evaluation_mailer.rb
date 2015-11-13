@@ -1,5 +1,5 @@
 class EvaluationMailer < ActionMailer::Base
-  default from: "chicago.student.eval@gmail.com"
+  default from: "sinai.evaluations@gmail.com"
 
   def student_email(evaluation)
     @evaluation = evaluation
