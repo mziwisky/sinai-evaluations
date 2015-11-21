@@ -1,14 +1,9 @@
 class Evaluation < ActiveRecord::Base
-  attr_accessible :student_email, :student_name, :student_type, :hospital, :evaluation, :provider_id, :comments
+  attr_accessible :evaluation, :comments, :provider_id
   belongs_to :provider
+  belongs_to :student
 
-  attr_accessor :student_submission
-  validates_presence_of :student_email, :student_name
-  validates_presence_of :student_type, :hospital, :provider_id, :if => lambda { self.student_submission }
-
-  before_create :generate_access_codes
-
-  after_create :send_email_to_student
+  before_create :generate_access_code
 
   scope :unfinished, lambda { where(evaluation: nil) }
   scope :waiting_on_student, lambda { where(provider_id: nil) }
@@ -53,12 +48,7 @@ class Evaluation < ActiveRecord::Base
     end
   end
 
-  def generate_access_codes
-    self.student_access_code = SecureRandom.uuid
+  def generate_access_code
     self.provider_access_code = SecureRandom.uuid
-  end
-
-  def send_email_to_student
-    EvaluationMailer.student_email(self).deliver
   end
 end

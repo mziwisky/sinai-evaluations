@@ -9,7 +9,7 @@ end
 ActiveAdmin.register Evaluation do
   config.sort_order = 'created_at_desc'
 
-  actions :all, except: [:edit]
+  actions :all, except: [:new, :edit]
 
   scope :all, default: true
   scope :unfinished
@@ -17,8 +17,10 @@ ActiveAdmin.register Evaluation do
   scope :waiting_on_provider
   scope :finished
 
-  # TODO: probably allow some filters
-  config.filters = false
+  filter :student
+  filter :provider
+  filter :created_at
+  filter :updated_at
 
   # creation form
   form do |f|
@@ -33,8 +35,7 @@ ActiveAdmin.register Evaluation do
   # index page
   index do
     selectable_column
-    column :student_name
-    column :student_email
+    column :student
     column 'Student Finished?' do |ev|
       status_tag_bool ev.student_finished?
     end
@@ -49,10 +50,7 @@ ActiveAdmin.register Evaluation do
   # show page
   show do
     attributes_table do
-      row :student_name
-      row :student_email
-      row :student_type
-      row :hospital
+      row :student
       row :provider
       row :evaluation do |ev|
         data = JSON.parse(ev.evaluation)
@@ -76,7 +74,6 @@ ActiveAdmin.register Evaluation do
       row :comments
       row :created_at
       row :updated_at
-      row :student_access_code
       row :provider_access_code
     end
   end

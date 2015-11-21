@@ -12,7 +12,7 @@ class EvaluationsController < ApplicationController
     @evaluation.student_update(params[:evaluation])
 
     if @evaluation.valid?
-      EvaluationMailer.provider_email(@evaluation).deliver
+      ProviderMailer.new_evaluation_email(@evaluation).deliver
       @just_submitted = true
       render 'show_student'
     else

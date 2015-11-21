@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150914035833) do
+ActiveRecord::Schema.define(:version => 20151121035822) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "namespace"
@@ -47,18 +47,17 @@ ActiveRecord::Schema.define(:version => 20150914035833) do
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
   create_table "evaluations", :force => true do |t|
-    t.text     "student_name"
-    t.text     "student_email"
-    t.text     "student_type"
-    t.text     "hospital"
     t.text     "evaluation"
-    t.text     "student_access_code"
     t.text     "provider_access_code"
     t.integer  "provider_id"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
     t.text     "comments"
+    t.integer  "student_id"
   end
+
+  add_index "evaluations", ["provider_id"], :name => "index_evaluations_on_provider_id"
+  add_index "evaluations", ["student_id"], :name => "index_evaluations_on_student_id"
 
   create_table "providers", :force => true do |t|
     t.text     "name",       :null => false
@@ -66,6 +65,16 @@ ActiveRecord::Schema.define(:version => 20150914035833) do
     t.boolean  "disabled"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "students", :force => true do |t|
+    t.text     "name"
+    t.text     "email"
+    t.text     "type"
+    t.text     "hospital"
+    t.text     "access_code"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
 end
