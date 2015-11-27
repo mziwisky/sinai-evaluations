@@ -1,0 +1,20 @@
+<div class="container">
+  <%= semantic_form_for @student, url: { action: 'update_profile' } do |f| %>
+    <%= f.inputs name: "Edit student profile" do %>
+      <%= f.semantic_errors %>
+      <%= form_string_row 'Name', @student.name, 'cannot be changed' %>
+      <%= form_string_row 'Email', @student.email, 'cannot be changed' %>
+      <%= f.input :type, as: :radio, collection: @student_types %>
+      <%= f.input :hospital, as: :radio, collection: @hospitals %>
+    <% end %>
+
+    <%= f.actions do %>
+      <% if @student.persisted? %>
+        <%= f.action :submit, label: 'Submit' %>
+      <% else %>
+        <%= f.action :submit, label: 'Submit', button_html: { disabled: true } %>
+        <%= link_to('Return to admin dashboard', admin_root_path) %>
+      <% end  %>
+    <% end %>
+  <% end %>
+</div>

@@ -3,7 +3,7 @@ class StudentMailer < ActionMailer::Base
 
   def welcome_email(student)
     @student = student
-    @url = student_evaluation_url(access_code: student.access_code)
+    @url = student_new_evaluation_url(access_code: student.access_code)
     mail(to: student.email, subject: "ACTION REQUIRED: Sinai Health Systems Student Evaluation")
   end
 end

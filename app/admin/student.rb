@@ -1,10 +1,16 @@
 ActiveAdmin.register Student do
   config.sort_order = 'name_asc'
 
+  filter :name
+  filter :email
+  filter :type
+  filter :hospital
+  filter :created_at
+
   index do
     selectable_column
     column :name
-    column :email
+    column :created_at
     column :type
     column :hospital
     column :evaluations do |student|

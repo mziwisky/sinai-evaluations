@@ -6,7 +6,7 @@
   <body>
   <h3>You've been asked to complete a Student Evaluation</h3>
   <p>
-  <%= @evaluation.provider.name %>, please follow <a href="<%= @url %>">this link</a> to complete a student evaluation for <%= @evaluation.student_name %>.
+  <%= @evaluation.provider.name %>, please follow <a href="<%= @url %>">this link</a> to complete a student evaluation for <%= @evaluation.student.name %>.
   </p>
   <p>
     <a href="<%= @url %>"><%= @url %></a>

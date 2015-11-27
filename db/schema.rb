@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151121035822) do
+ActiveRecord::Schema.define(:version => 20151127021059) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "namespace"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20151121035822) do
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
     t.text     "comments"
+    t.text     "student_access_code"
     t.integer  "student_id"
   end
 
@@ -60,12 +61,15 @@ ActiveRecord::Schema.define(:version => 20151121035822) do
   add_index "evaluations", ["student_id"], :name => "index_evaluations_on_student_id"
 
   create_table "providers", :force => true do |t|
-    t.text     "name",       :null => false
-    t.text     "email",      :null => false
+    t.text     "name",        :null => false
+    t.text     "email",       :null => false
     t.boolean  "disabled"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.text     "access_code"
   end
+
+  add_index "providers", ["access_code"], :name => "index_providers_on_access_code"
 
   create_table "students", :force => true do |t|
     t.text     "name"

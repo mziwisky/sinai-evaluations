@@ -1,5 +1,5 @@
 class CreateStudents < ActiveRecord::Migration
-  def change
+  def up
     create_table :students do |t|
       t.text :name
       t.text :email
@@ -15,16 +15,15 @@ class CreateStudents < ActiveRecord::Migration
     add_index :evaluations, :provider_id
 
     Evaluation.all.each do |e|
-      attrs = {
-        name: e.student_name,
-        email: e.student_email,
-        type: e.student_type,
-        hospital: e.hospital,
-        access_code: e.student_access_code
-      }
       student = Student.where(email: e.student_email).first
       unless student
-        student = Student.new(attrs)
+        student = Student.new(
+          name: e.student_name,
+          email: e.student_email,
+          type: e.student_type,
+          hospital: e.hospital,
+          access_code: SecureRandom.uuid
+        )
         student.inhibit_emails = true
         student.save!
       end
@@ -32,8 +31,30 @@ class CreateStudents < ActiveRecord::Migration
       e.save!
     end
 
-    %i[student_name student_email student_type hospital student_access_code].each do |c|
-      remove_column :evaluations, c
+    remove_column :evaluations, :student_name
+    remove_column :evaluations, :student_email
+    remove_column :evaluations, :student_type
+    remove_column :evaluations, :hospital
+  end
+
+  def down
+    add_column :evaluations, :student_name, :text
+    add_column :evaluations, :student_email, :text
+    add_column :evaluations, :student_type, :text
+    add_column :evaluations, :hospital, :text
+
+    Evaluation.all.each do |e|
+      student = e.student
+      e.student_name = student.name
+      e.student_email = student.email
+      e.student_type = student.type
+      e.hospital = student.hospital
+      e.save!
     end
+
+    remove_column :evaluations, :student_id
+    remove_index :evaluations, :provider_id
+
+    drop_table :students
   end
 end

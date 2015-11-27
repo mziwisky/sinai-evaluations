@@ -1,0 +1,23 @@
+<div class="container">
+  <h2>Sinai Health Systems Student Evaluations Portal</h2>
+
+  <%= semantic_form_for @student, url: '', html: { class: 'compactForm' } do |f| %>
+    <%= f.inputs name: "Your profile #{link_to('Edit', student_edit_profile_path(access_code: @student.access_code), style: 'padding-left:10px;')}" do %>
+      <%= form_string_row 'Name', @student.name %>
+      <%= form_string_row 'Email', @student.email %>
+      <%= form_string_row 'Type', @student.type %>
+      <%= form_string_row 'Hospital', @student.hospital %>
+    <% end %>
+  <% end %>
+
+  <h3>Request a performance evaluation from a provider:</h3>
+
+  <%= semantic_form_for @evaluation, url: { action: 'create_evaluation' } do |f| %>
+    <%= f.inputs name: "Evaluation request" do %>
+      <%= f.input :provider, hint: 'this person will evaluate you', collection: @providers %>
+    <% end %>
+    <%= f.actions do %>
+      <%= f.action :submit, label: 'Submit' %>
+    <% end %>
+  <% end %>
+</div>

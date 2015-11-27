@@ -13,8 +13,6 @@ ActiveAdmin.register Evaluation do
 
   scope :all, default: true
   scope :unfinished
-  scope :waiting_on_student
-  scope :waiting_on_provider
   scope :finished
 
   filter :student
@@ -22,25 +20,12 @@ ActiveAdmin.register Evaluation do
   filter :created_at
   filter :updated_at
 
-  # creation form
-  form do |f|
-    f.semantic_errors
-    f.inputs do
-      f.input :student_name, as: :string
-      f.input :student_email, as: :email
-    end
-    f.actions
-  end
-
   # index page
   index do
     selectable_column
     column :student
-    column 'Student Finished?' do |ev|
-      status_tag_bool ev.student_finished?
-    end
     column :provider
-    column 'Provider Finished?' do |ev|
+    column 'Finished?' do |ev|
       status_tag_bool ev.evaluator_finished?
     end
     column :created_at
