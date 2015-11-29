@@ -1,3 +1,13 @@
-<div class="container">
-  PROVIDER HOME
-</div>
+<h2><%= @provider.name %></h2>
+<hr>
+
+<% if @evaluations.count > 0 %>
+  <h4>You have <%= @evaluations.count %> evaluation<%= ('s' if @evaluations.count != 1) %> to complete</h4>
+  <ul>
+    <% @evaluations.each do |ev| %>
+      <li><%= link_to(ev.student.name, provider_show_evaluation_path(access_code: @provider.access_code, id: ev.id)) %> <i>requested <%= ev.created_at.to_s(:short) %></i></li>
+    <% end %>
+  </ul>
+<% else %>
+  <h4>You have no evaluations to complete</h4>
+<% end %>

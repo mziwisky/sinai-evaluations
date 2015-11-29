@@ -1,3 +1,28 @@
-<div class="container">
-  PROVIDER SHOW EVALUATION
-</div>
+<% title "Evaluation for #{@evaluation.student.name}" %>
+
+<h2><%= @provider.name %></h2>
+<hr>
+
+<h3>Your responses for <b><%= @evaluation.student.name %></b>:</h3>
+
+<ul>
+  <% @rubric.metrics.each do |metric| %>
+    <li><%= metric.title %> -- <b><%= metric.grade %></b></li>
+  <% end %>
+  <li>Comments: <b><%= @evaluation.comments || "[None]" %></b></li>
+</ul>
+
+<i>submitted <%= @evaluation.updated_at.to_s(:short) %></i>
+<hr>
+<hr>
+<% moar_evs = @provider.outstanding_evaluations %>
+<% if moar_evs.count > 0 %>
+  <h4 style="color:red;">You have <%= moar_evs.count %> more evaluation<%= ('s' if moar_evs.count != 1) %> to complete</h4>
+  <ul>
+    <% moar_evs.each do |ev| %>
+      <li><%= link_to(ev.student.name, provider_show_evaluation_path(access_code: @provider.access_code, id: ev.id)) %> <i>requested <%= ev.created_at.to_s(:short) %></i></li>
+    <% end %>
+  </ul>
+<% else %>
+  <h4>You have no other evaluations to complete</h4>
+<% end %>

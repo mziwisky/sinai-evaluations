@@ -24,8 +24,8 @@ If any questions or issues come up, you have my email address.
     panel "Previews" do
       para "Here you can preview what the forms look like"
       ul do
-        li link_to('Student form', student_evaluation_path('demo'))
-        li link_to('Evaluator form', provider_evaluation_path('demo'))
+        li link_to('Student form', student_new_evaluation_path('demo'))
+        li link_to('Evaluator form', provider_show_evaluation_path(access_code: 'demo', id: 'demo'))
       end
     end
     # Here is an example of a simple dashboard with columns and panels.

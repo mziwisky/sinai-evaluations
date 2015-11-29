@@ -1,23 +1,36 @@
-<div class="container">
-  <h2>Sinai Health Systems Student Evaluations Portal</h2>
+<h2>Sinai Health Systems Student Evaluations Portal</h2>
 
-  <%= semantic_form_for @student, url: '', html: { class: 'compactForm' } do |f| %>
-    <%= f.inputs name: "Your profile #{link_to('Edit', student_edit_profile_path(access_code: @student.access_code), style: 'padding-left:10px;')}" do %>
-      <%= form_string_row 'Name', @student.name %>
-      <%= form_string_row 'Email', @student.email %>
-      <%= form_string_row 'Type', @student.type %>
-      <%= form_string_row 'Hospital', @student.hospital %>
-    <% end %>
+<%= semantic_form_for @student, url: '', html: { class: 'compactForm' } do |f| %>
+  <%= f.inputs name: "Your profile #{link_to('Edit', student_edit_profile_path(access_code: @student.access_code), style: 'padding-left:10px;')}" do %>
+    <%= form_string_row 'Name', @student.name %>
+    <%= form_string_row 'Email', @student.email %>
+    <%= form_string_row 'Type', @student.type %>
+    <%= form_string_row 'Hospital', @student.hospital %>
   <% end %>
+<% end %>
 
-  <h3>Request a performance evaluation from a provider:</h3>
+<h3>Request a performance evaluation from a provider:</h3>
 
-  <%= semantic_form_for @evaluation, url: { action: 'create_evaluation' } do |f| %>
-    <%= f.inputs name: "Evaluation request" do %>
-      <%= f.input :provider, hint: 'this person will evaluate you', collection: @providers %>
-    <% end %>
-    <%= f.actions do %>
-      <%= f.action :submit, label: 'Submit' %>
-    <% end %>
+<%= semantic_form_for @evaluation, url: { action: 'create_evaluation' } do |f| %>
+  <%= f.inputs name: "Evaluation request" do %>
+    <%= f.input :provider, hint: 'this person will evaluate you', collection: @providers %>
   <% end %>
-</div>
+  <%= f.actions do %>
+    <%= f.action :submit, label: 'Submit' %>
+  <% end %>
+<% end %>
+
+<hr>
+
+<h3>Your evaluation request history</h3>
+
+<i>Note that evaluations are periodically pruned from the system, so older requests may not show up here. The main reason we show you this is so you can know if you've already sent a request today.</i>
+
+<br>
+<br>
+
+<ul>
+  <% @student.evaluations.limit(5).order('created_at desc').each do |ev| %>
+    <li><%= ev.provider.name %> -- <i><%= ev.created_at.to_s(:short) %></i></li>
+  <% end %>
+</ul>

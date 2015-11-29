@@ -14,7 +14,7 @@ class Evaluation < ActiveRecord::Base
   end
 
   # did the provider finish evaluating the student?
-  def evaluator_finished?
+  def finished?
     persisted_attribute(:evaluation).present?
   end
 

@@ -26,9 +26,10 @@ ActiveAdmin.register Evaluation do
     column :student
     column :provider
     column 'Finished?' do |ev|
-      status_tag_bool ev.evaluator_finished?
+      status_tag_bool ev.finished?
     end
     column :created_at
+    column :updated_at
     actions
   end
 
@@ -38,6 +39,7 @@ ActiveAdmin.register Evaluation do
       row :student
       row :provider
       row :evaluation do |ev|
+        next unless ev.evaluation
         data = JSON.parse(ev.evaluation)
         table do
           thead do

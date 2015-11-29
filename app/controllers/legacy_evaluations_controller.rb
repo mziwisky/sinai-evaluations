@@ -10,6 +10,6 @@ class LegacyEvaluationsController < ApplicationController
     provider = evaluation.provider
     redirect_to provider_show_evaluation_path(
       access_code: provider.access_code,
-      evaluation_id: evaluation.id)
+      id: evaluation.id)
   end
 end
