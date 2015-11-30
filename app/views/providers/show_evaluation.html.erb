@@ -1,9 +1,11 @@
 <% title "Evaluation for #{@evaluation.student.name}" %>
 
-<h2><%= @provider.name %></h2>
+<h2>Sinai Health Systems Student Evaluations</h2>
+
+<h3><%= @provider.name %></h3>
 <hr>
 
-<h3>Your responses for <b><%= @evaluation.student.name %></b>:</h3>
+<h4>Your evaluation of <b><%= @evaluation.student.name %></b>:</h4>
 
 <ul>
   <% @rubric.metrics.each do |metric| %>

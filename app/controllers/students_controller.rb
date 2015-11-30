@@ -56,14 +56,22 @@ class StudentsController < ApplicationController
   def fetch_student
     id = params[:access_code]
     @student = if id == 'demo'
-                 Student.new(name: 'Demo Student')
+                 demo_student
                else
                  Student.where(access_code: id).first or not_found
                end
   end
 
+  def demo_student
+    prepare_student_form_vars
+    DemoStudent.new(name: 'Demo Student',
+                    email: 'demo@student.edu',
+                    access_code: 'demo',
+                    type: @student_types.first.second,
+                    hospital: @hospitals.first.second)
+  end
+
   def prepare_student_form_vars
-    # @providers = Provider.where(disabled: false)
     @student_types = [
       ['M3 Ross', 'M3 Ross'],
       ['M3 CMS', 'M3 CMS'],
@@ -76,5 +84,9 @@ class StudentsController < ApplicationController
     @hospitals = [
       ['Holy Cross Hospital', 'Holy Cross'],
       ['Mount Sinai Hospital', 'Mount Sinai']]
+  end
+
+  class DemoStudent < Student
+    def student_update(attrs); end
   end
 end

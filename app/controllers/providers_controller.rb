@@ -36,15 +36,24 @@ class ProvidersController < ApplicationController
   private
 
   def fetch_provider
-    @provider ||= Provider.where(access_code: params[:access_code]).first or not_found
+    id = params[:access_code]
+    @provider ||= if id == 'demo'
+                    Provider.new(name: 'Demo Provider')
+                  else
+                    Provider.where(access_code: id).first or not_found
+                  end
   end
 
   def fetch_evaluation
     fetch_provider
-    @evaluation = Evaluation.where(id: params[:id]).first
+    @evaluation = if params[:id] == 'demo'
+                    Evaluation.new(provider_id: @provider.id) # TODO: this isn't complete yet
+                  else
+                    Evaluation.where(id: params[:id]).first
+                  end
     if @evaluation.blank? || @evaluation.provider_id != @provider.id
       flash[:alert] = "That evaluation couldn't be located, but here's a list of your outstanding evals"
-      redirect_to provider_home_path(access_code: @provider.access_code)
+      redirect_to provider_home_path
     end
     # TODO: allow demoing for admin page
     # @evaluation = if id == 'demo'

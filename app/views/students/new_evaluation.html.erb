@@ -29,8 +29,15 @@
 <br>
 <br>
 
-<ul>
-  <% @student.evaluations.limit(5).order('created_at desc').each do |ev| %>
-    <li><%= ev.provider.name %> -- <i><%= ev.created_at.to_s(:short) %></i></li>
-  <% end %>
-</ul>
+<% evals = @student.evaluations.limit(5).order('created_at desc') %>
+<% if evals.blank? %>
+  <ul>
+    <li>You have no evaluation requests recorded.</li>
+  </ul>
+<% else %>
+  <ul>
+    <% evals.each do |ev| %>
+      <li><%= ev.provider.name %> -- <i><%= ev.created_at.to_s(:short) %></i></li>
+    <% end %>
+  </ul>
+<% end %>
