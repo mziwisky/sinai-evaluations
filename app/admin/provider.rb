@@ -5,6 +5,10 @@ ActiveAdmin.register Provider do
   scope :active, default: true
   scope :disabled
 
+  filter :name
+  filter :email
+  filter :created_at
+
   form do |f|
     f.semantic_errors
     f.inputs do

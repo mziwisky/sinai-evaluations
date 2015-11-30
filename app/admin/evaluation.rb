@@ -15,16 +15,22 @@ ActiveAdmin.register Evaluation do
   scope :unfinished
   scope :finished
 
-  filter :student
-  filter :provider
+  filter :student, collection: proc { Student.order(:name) }
+  filter :provider, collection: proc { Provider.order(:name) }
   filter :created_at
   filter :updated_at
+
+  controller do
+    def scoped_collection
+      end_of_association_chain.includes(:student, :provider) # allows sorting associations by name
+    end
+  end
 
   # index page
   index do
     selectable_column
-    column :student
-    column :provider
+    column :student, sortable: 'students.name'
+    column :provider, sortable: 'providers.name'
     column 'Finished?' do |ev|
       status_tag_bool ev.finished?
     end
