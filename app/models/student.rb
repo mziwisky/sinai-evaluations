@@ -4,7 +4,7 @@ class Student < ActiveRecord::Base
 
   attr_accessible :access_code, :email, :hospital, :name, :type
 
-  has_many :evaluations
+  has_many :evaluations, dependent: :destroy
 
   attr_accessor :inhibit_emails
   attr_accessor :student_submission

@@ -1,7 +1,7 @@
 class Provider < ActiveRecord::Base
   attr_accessible :email, :name, :disabled
 
-  has_many :evaluations
+  has_many :evaluations, dependent: :destroy
 
   validates_presence_of :email, :name
 
