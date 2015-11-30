@@ -6,7 +6,7 @@ class Evaluation < ActiveRecord::Base
   scope :unfinished, where(evaluation: nil)
   scope :finished, where('evaluation IS NOT NULL')
 
-  validates_presence_of :student, :provider
+  validates_presence_of :student #, :provider
 
   def evaluator_update(rubric)
     self.evaluation = rubric.to_json
