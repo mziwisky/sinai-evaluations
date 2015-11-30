@@ -25,7 +25,7 @@ class StudentsController < ApplicationController
       redirect_to student_edit_profile_path
     end
     @evaluation = Evaluation.new
-    @providers = Provider.where(disabled: false)
+    @providers = Provider.where(disabled: false).order(:name)
   end
 
   def create_evaluation
