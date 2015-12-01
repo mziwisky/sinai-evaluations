@@ -13,10 +13,8 @@
 
 <%= semantic_form_for @evaluation, url: { action: 'create_evaluation' } do |f| %>
   <%= f.inputs name: "Evaluation request" do %>
-    <%= f.input :provider, hint: 'this person will evaluate you', collection: @providers %>
-  <% end %>
-  <%= f.actions do %>
-    <%= f.action :submit, label: 'Submit' %>
+    <%= f.input :provider, hint: 'this person will receive an email asking them to evaluate you', collection: @providers %>
+    <%= f.action :submit, label: 'Submit Request' %>
   <% end %>
 <% end %>
 
