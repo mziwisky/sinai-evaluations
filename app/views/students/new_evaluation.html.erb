@@ -1,11 +1,14 @@
 <h2>Sinai Health Systems Student Evaluations Portal</h2>
 
-<%= semantic_form_for @student, url: '', html: { class: 'compactForm' } do |f| %>
+<%= semantic_form_for @student, url: '', html: { class: 'compactForm', style: 'position:relative;' } do |f| %>
   <%= f.inputs name: "Your profile #{link_to('Edit', student_edit_profile_path(access_code: @student.access_code), style: 'padding-left:10px;')}" do %>
     <%= form_string_row 'Name', @student.name %>
     <%= form_string_row 'Email', @student.email %>
     <%= form_string_row 'Type', @student.type %>
     <%= form_string_row 'Hospital', @student.hospital %>
+    <% if @student.avatar_url.present? %>
+      <%= image_tag @student.avatar_url, style: 'position:absolute;right:2px;bottom:2px;' %>
+    <% end %>
   <% end %>
 <% end %>
 

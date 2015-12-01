@@ -4,7 +4,7 @@ module StudentsHelper
       '<li class="string input required stringish"><label class="label">',
       html_escape(label),
       '</label><span>',
-      html_escape(content),
+      content,
       '</span></li>'
     ]
     html.join.html_safe

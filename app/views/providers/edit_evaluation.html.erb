@@ -5,9 +5,13 @@
 <h3><%= @provider.name %></h3>
 <hr>
 
-<h3 style="display:inline-block">Student: <b><%= @evaluation.student.name %></b> - <%= @evaluation.student.type %></h3>
+<% if @evaluation.student.avatar_url.present? %>
+  <div> <%= image_tag @evaluation.student.avatar_url %> </div>
+<% end %>
+
+<h3 style="display:inline-block"><b><%= @evaluation.student.name %></b> - <%= @evaluation.student.type %></h3>
 <div style="float:right">
-<i>requested <%= @evaluation.created_at.to_s(:short) %></i>
+  <i>requested <%= @evaluation.created_at.to_s(:short) %></i>
 </div>
 
 <%= form_for @evaluation, url: { action: 'submit_evaluation' } do |f| %>

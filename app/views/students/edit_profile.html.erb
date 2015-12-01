@@ -7,6 +7,8 @@
     <%= form_string_row 'Email', @student.email, 'cannot be changed' %>
     <%= f.input :type, as: :radio, collection: @student_types %>
     <%= f.input :hospital, as: :radio, collection: @hospitals %>
+    <%= f.input :avatar_url, as: :hidden %>
+    <%= form_string_row 'Picture', '<div id="avatar_area"></div>' %>
   <% end %>
 
   <%= f.actions do %>
@@ -18,3 +20,68 @@
     <% end  %>
   <% end %>
 <% end %>
+
+<script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+var avatarUrl = "<%= @student.avatar_url || '' %>";
+
+var clickHandler = function () {
+  cloudinary.openUploadWidget({
+    cloud_name: 'sinaievaluations',
+    upload_preset: '100x100avatar',
+    cropping: 'server',
+    cropping_aspect_ratio: 1,
+    cropping_default_selection_ratio: 0.8,
+    client_allowed_formats: ['png', 'jpg', 'jpeg', 'gif'],
+    // max_file_size: 2 * 1024 * 1024, // 2MB
+  }, function(error, result) {
+    // console.log(error, result);
+    if (result) {
+      var url = result[0].url;
+      document.getElementById("student_avatar_url").value = url;
+      showImage(url);
+    }
+  });
+}
+
+var avatarArea = document.getElementById("avatar_area");
+
+function replaceAvatarArea (callback) {
+  var avatarAreaContainer = avatarArea.parentNode;
+  avatarAreaContainer.removeChild(avatarArea);
+  avatarArea = document.createElement("div");
+  callback(avatarArea);
+  avatarAreaContainer.appendChild(avatarArea);
+}
+
+function showImage (url) {
+  replaceAvatarArea(function(container) {
+    var img = document.createElement("img");
+    img.src = url;
+    container.appendChild(img);
+    container.appendChild(createTriggerLink('Change'));
+  });
+}
+
+function showNoImage () {
+  replaceAvatarArea(function(container) {
+    container.appendChild(createTriggerLink(
+      'Add -- highly recommended, as it is very helpful to providers'));
+  });
+}
+
+function createTriggerLink (text) {
+  var a = document.createElement("a");
+  a.href = '#';
+  a.addEventListener('click', clickHandler, false);
+  a.innerHTML = text;
+  return a;
+}
+
+if (avatarUrl.length) {
+  showImage(avatarUrl);
+} else {
+  showNoImage();
+}
+</script>

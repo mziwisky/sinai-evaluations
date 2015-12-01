@@ -2,7 +2,7 @@ class Student < ActiveRecord::Base
   # we use 'type' as a regular attr, not for single table inheritance
   self.inheritance_column = :_type_disabled
 
-  attr_accessible :access_code, :email, :hospital, :name, :type
+  attr_accessible :access_code, :email, :hospital, :name, :type, :avatar_url
 
   has_many :evaluations, dependent: :destroy
 

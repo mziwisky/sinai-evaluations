@@ -30,4 +30,20 @@ ActiveAdmin.register Student do
     end
     f.actions
   end
+
+  show do
+    attributes_table do
+      row :id
+      row :name
+      row :email
+      row :type
+      row :hospital
+      row :access_code
+      row :created_at
+      row :updated_at
+      row :avatar do |student|
+        image_tag student.avatar_url if student.avatar_url.present?
+      end
+    end
+  end
 end

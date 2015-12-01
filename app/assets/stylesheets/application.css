@@ -32,6 +32,11 @@ form.compactForm fieldset > ol > li {
   padding: 2px 10px;
 }
 
+/* really hide hidden formtastic inputs */
+form fieldset > ol > li.hidden {
+  padding: 0;
+}
+
 /* fix dumb looking headers */
 h2, h3 {
   line-height: 1em;
