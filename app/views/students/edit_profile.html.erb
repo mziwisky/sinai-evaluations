@@ -8,7 +8,7 @@
     <%= f.input :type, as: :radio, collection: @student_types %>
     <%= f.input :hospital, as: :radio, collection: @hospitals %>
     <%= f.input :avatar_url, as: :hidden %>
-    <%= form_string_row 'Picture', '<div id="avatar_area"></div>' %>
+    <%= form_string_row 'Picture', '<div id="avatar_area">Loading...</div>' %>
   <% end %>
 
   <%= f.actions do %>
@@ -26,7 +26,14 @@
 <script type="text/javascript">
 var avatarUrl = "<%= @student.avatar_url || '' %>";
 
-var clickHandler = function () {
+var confirmExitWithoutAvatar = function (e) {
+  e = e || window.event;
+  var message = 'You have not submitted a profile picture.\n\nProviders work with lots of students, and they really appreciate seeing pictures in these evaluations to help them remember who\'s who. It will only take you a moment to add yours, and you only have to do it once. Are you sure you want to continue without submitting a picture?';
+  if (e) e.returnValue = message; // For IE6-8 and Firefox prior to version 4
+  return message; // For Chrome, Safari, IE8+ and Opera 12+
+};
+
+var launchCloudinary = function () {
   cloudinary.openUploadWidget({
     cloud_name: 'sinaievaluations',
     upload_preset: '100x100avatar',
@@ -59,22 +66,27 @@ function showImage (url) {
   replaceAvatarArea(function(container) {
     var img = document.createElement("img");
     img.src = url;
+    img.style.paddingRight = '5px';
     container.appendChild(img);
     container.appendChild(createTriggerLink('Change'));
   });
+  window.onbeforeunload = null;
 }
 
 function showNoImage () {
   replaceAvatarArea(function(container) {
-    container.appendChild(createTriggerLink(
-      'Add -- highly recommended, as it is very helpful to providers'));
+    container.appendChild(createTriggerLink('Click to Add'));
+    var span = document.createElement("span");
+    span.innerHTML = ' <-- highly recommended, as it helps providers identify you';
+    container.appendChild(span);
   });
+  window.onbeforeunload = confirmExitWithoutAvatar;
 }
 
 function createTriggerLink (text) {
   var a = document.createElement("a");
   a.href = '#';
-  a.addEventListener('click', clickHandler, false);
+  a.addEventListener('click', launchCloudinary, false);
   a.innerHTML = text;
   return a;
 }
