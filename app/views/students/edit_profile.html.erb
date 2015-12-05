@@ -8,7 +8,8 @@
     <%= f.input :type, as: :radio, collection: @student_types %>
     <%= f.input :hospital, as: :radio, collection: @hospitals %>
     <%= f.input :avatar_url, as: :hidden %>
-    <%= form_string_row 'Picture', '<div id="avatar_area">Loading...</div>' %>
+    <%= form_string_row 'Picture', '<div id="avatar_area">Loading...</div>',
+      (@student.errors[:avatar_url].present? && 'required to help providers identify you') %>
   <% end %>
 
   <%= f.actions do %>
@@ -25,13 +26,6 @@
 
 <script type="text/javascript">
 var avatarUrl = "<%= @student.avatar_url || '' %>";
-
-var confirmExitWithoutAvatar = function (e) {
-  e = e || window.event;
-  var message = 'You have not submitted a profile picture.\n\nProviders work with lots of students, and they really appreciate seeing pictures in these evaluations to help them remember who\'s who. It will only take you a moment to add yours, and you only have to do it once. Are you sure you want to continue without submitting a picture?';
-  if (e) e.returnValue = message; // For IE6-8 and Firefox prior to version 4
-  return message; // For Chrome, Safari, IE8+ and Opera 12+
-};
 
 var launchCloudinary = function () {
   cloudinary.openUploadWidget({
@@ -70,17 +64,20 @@ function showImage (url) {
     container.appendChild(img);
     container.appendChild(createTriggerLink('Change'));
   });
-  window.onbeforeunload = null;
 }
 
 function showNoImage () {
   replaceAvatarArea(function(container) {
-    container.appendChild(createTriggerLink('Click to Add'));
-    var span = document.createElement("span");
-    span.innerHTML = ' <-- highly recommended, as it helps providers identify you';
-    container.appendChild(span);
+    // container.appendChild(createTriggerLink('Click to Add'));
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.addEventListener('click', launchCloudinary, false);
+    button.innerHTML = "Click to Add";
+    button.style.padding = '8px';
+    button.style.backgroundColor = '#3B99FC';
+    button.style.color = '#FFF';
+    container.appendChild(button);
   });
-  window.onbeforeunload = confirmExitWithoutAvatar;
 }
 
 function createTriggerLink (text) {

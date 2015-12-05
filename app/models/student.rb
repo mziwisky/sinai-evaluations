@@ -9,7 +9,7 @@ class Student < ActiveRecord::Base
   attr_accessor :inhibit_emails
   attr_accessor :student_submission
   validates_presence_of :email, :name
-  validates_presence_of :type, :hospital, if: -> { self.student_submission }
+  validates_presence_of :type, :hospital, :avatar_url, if: -> { self.student_submission }
 
   before_create :generate_access_code
 
@@ -21,7 +21,7 @@ class Student < ActiveRecord::Base
   end
 
   def profile_complete?
-    type.present? && hospital.present?
+    type.present? && hospital.present? && avatar_url.present?
   end
 
   private
