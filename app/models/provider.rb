@@ -5,10 +5,18 @@ class Provider < ActiveRecord::Base
 
   validates_presence_of :email, :name
 
+  before_create :generate_access_code
+
   scope :active, where(disabled: [false, nil])
   scope :disabled, where(disabled: true)
 
   def outstanding_evaluations
     evaluations.unfinished
+  end
+
+  private
+
+  def generate_access_code
+    self.access_code = SecureRandom.uuid
   end
 end
