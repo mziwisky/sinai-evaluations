@@ -72,6 +72,9 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     erubis (2.7.0)
+    exception_notification (4.1.1)
+      actionmailer (>= 3.0.4)
+      activesupport (>= 3.0.4)
     execjs (2.6.0)
     formtastic (2.3.1)
       actionpack (>= 3.0)
@@ -169,6 +172,7 @@ DEPENDENCIES
   binding_of_caller
   byebug
   coffee-rails (~> 3.2.1)
+  exception_notification
   jquery-rails
   meta_search (>= 1.1.0.pre)
   pg

@@ -3,6 +3,13 @@ SinaiEvaluations::Application.configure do
 
   config.middleware.use Rack::SslEnforcer
 
+  config.middleware.use ExceptionNotification::Rack,
+    :email => {
+      :email_prefix => "[ERROR NOTIFICATION] ",
+      :sender_address => %{"SHS Evaluations" <sinai.evaluations@gmail.com>},
+      :exception_recipients => %w{sinai.evaluations@gmail.com}
+    }
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :address => "smtp.gmail.com",
