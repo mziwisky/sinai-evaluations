@@ -3,8 +3,8 @@
 <%= semantic_form_for @student, url: { action: 'update_profile' } do |f| %>
   <%= f.inputs name: "Edit student profile" do %>
     <%= f.semantic_errors %>
-    <%= form_string_row 'Name', @student.name, 'cannot be changed' %>
-    <%= form_string_row 'Email', @student.email, 'cannot be changed' %>
+    <%= form_string_row 'Name', @student.name %>
+    <%= form_string_row 'Email', @student.email %>
     <%= f.input :type, as: :radio, collection: @student_types %>
     <%= f.input :hospital, as: :radio, collection: @hospitals %>
     <%= f.input :avatar_url, as: :hidden %>
