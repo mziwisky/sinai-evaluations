@@ -2,7 +2,7 @@ class LegacyEvaluationsController < ApplicationController
   def show_student
     evaluation = Evaluation.where(student_access_code: params[:access_code]).first or not_found
     student = evaluation.student
-    student_new_evaluation_path(access_code: student.access_code)
+    redirect_to student_new_evaluation_path(access_code: student.access_code)
   end
 
   def show_provider
