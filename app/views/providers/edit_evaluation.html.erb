@@ -50,6 +50,9 @@
 
   <div class="comments">
     <%= label(:comments, "Additional Comments:") %>
+    <% if @evaluation.errors[:comments].present? %>
+      <span class="error">required</span>
+    <% end %>
     <br>
     <%= f.text_area(:comments, rows: 6) %>
     <br>

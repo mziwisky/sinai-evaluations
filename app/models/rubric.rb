@@ -9,6 +9,7 @@ class Rubric
     grades ||= {}
     metrics_by_id = metrics.index_by(&:identifier).with_indifferent_access
     grades.each {|id, grade| metrics_by_id[id].grade = grade }
+    mark_errors!
   end
 
   def metric_types

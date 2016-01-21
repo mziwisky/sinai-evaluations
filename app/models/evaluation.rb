@@ -8,8 +8,14 @@ class Evaluation < ActiveRecord::Base
 
   validates_presence_of :student, :provider
 
-  def evaluator_update(rubric)
-    self.evaluation = rubric.to_json
+  attr_accessor :evaluator_updated
+  validates_presence_of :comments, :evaluation, if: -> { self.evaluator_updated }
+
+  def evaluator_update(rubric_hash, comments)
+    self.evaluator_updated = true
+    rubric.apply_grades!(rubric_hash)
+    self.evaluation = rubric.to_json if rubric.completed?
+    self.comments = comments
     save
   end
 
@@ -34,5 +40,9 @@ class Evaluation < ActiveRecord::Base
     else
       send attr.to_sym
     end
+  end
+
+  def rubric_is_complete_validation
+    @rubric
   end
 end

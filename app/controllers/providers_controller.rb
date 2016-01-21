@@ -19,15 +19,12 @@ class ProvidersController < ApplicationController
     @rubric = @evaluation.rubric
     render 'show_evaluation' and return if @evaluation.finished?
 
-    @rubric.apply_grades!(params[:rubric])
-    @evaluation.comments = params[:evaluation][:comments]
+    @evaluation.evaluator_update(params[:rubric], params[:evaluation][:comments])
 
-    if @rubric.completed?
-      @evaluation.evaluator_update(@rubric)
+    if @evaluation.valid?
       flash.now[:notice] = "Thanks, your evaluation has been recorded"
       render 'show_evaluation'
     else
-      @rubric.mark_errors!
       flash.now[:alert] = "I think you missed a spot"
       render 'edit_evaluation'
     end
